@@ -1,1 +1,98 @@
+import argparse
+import os
+import sys
+import time
+import requests
+from urllib.parse import unquote
 
+from huepy import *
+from core import requester
+from core import extractor
+from core import crawler
+from tqdm import tqdm
+
+
+def clear():
+    if 'linux' in sys.platform or 'darwin' in sys.platform:
+        os.system('clear')
+    else:
+        os.system('cls')
+
+
+def banner():
+    ban = '''
+            ___ ____         __       
+  ___ ___ _/ (_) _(_)__  ___/ /__ ____
+ (_-</ _ `/ / / _/ / _ \/ _  / -_) __/
+/___/\_, /_/_/_//_/_//_/\_,_/\__/_/   
+      /_/        ~  by americo v1.0 ~
+                 ~  by chor4o v2.0 ~
+      '''
+
+    print(green(ban))
+
+
+def concatenate_list_data(lst, result):
+    for element in lst:
+        result += "\n" + str(element)
+    return result
+
+
+def main():
+    parser = argparse.ArgumentParser(description='xssfinder - a xss scanner tool')
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('-f', '--file', help='File containing a list of target domains')
+    group.add_argument('-s', '--site', help='Single target domain')
+    parser.add_argument('-sb', '--subs', help='Set false or true [ex: --subs False]', default=False, type=bool)
+    args = parser.parse_args()
+
+    if args.file:
+        with open(args.file, 'r') as file:
+            domains = file.read().splitlines()
+    else:
+        domains = [args.site]
+
+    for domain in domains:
+        print("\n" + "[" + yellow("INFO") + "]" + f" Scanning SQL injection for {domain}")
+
+        if args.subs:
+            url = f"http://web.archive.org/cdx/search/cdx?url=*.{domain}/*&output=txt&fl=original&collapse=urlkey&page=/"
+        else:
+            url = f"http://web.archive.org/cdx/search/cdx?url={domain}/*&output=txt&fl=original&collapse=urlkey&page=/"
+
+        clear()
+        banner()
+
+        response = requester.connector(url)
+        crawled_urls = crawler.spider(f"http://{domain}", 10)
+        response = concatenate_list_data(crawled_urls, response)
+        if not response:
+            return
+        response = unquote(response)
+
+        exclude = ['woff', 'js', 'ttf', 'otf', 'eot', 'svg', 'png', 'jpg']
+        final_uris = extractor.param_extract(response, "high", exclude, "")
+
+        with open('payloads.txt', 'r') as file:
+            payloads = file.read().splitlines()
+
+        vulnerable_urls = []
+
+        for uri in final_uris:
+            for payload in payloads:
+                final_url = uri + payload
+
+                try:
+                    req = requests.get("{}".format(final_url))
+                    res = req.text
+                    if 'SQL' in res or 'sql' in res or 'Sql' in res:
+                        print("[" + green("sql-injection") + "] " + final_url)
+                        break
+                except requests.exceptions.RequestException:
+                    pass
+
+
+if __name__ == "__main__":
+    clear()
+    banner()
+    main()
