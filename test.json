@@ -1,10 +1,10 @@
 {
-    "url": "http://roothospedagem.com/teste/swagger/test.yaml",
+    "url": "https://raw.githubusercontent.com/chor4o/tools/refs/heads/main/swagger1.yaml",
     "urls": [{
-        "url": "http://roothospedagem.com/teste/swagger/test.yaml",
+        "url": "https://raw.githubusercontent.com/chor4o/tools/refs/heads/main/swagger1.yaml",
         "name": "Foo"
     },{
-        "url": "http://roothospedagem.com/teste/swagger/test2.yaml",
+        "url": "https://raw.githubusercontent.com/chor4o/tools/refs/heads/main/swagger2.yaml",
         "name": "Foo2"
     }]
 }
