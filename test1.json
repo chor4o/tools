@@ -1,0 +1,10 @@
+{
+    "url": "https://raw.githubusercontent.com/chor4o/tools/refs/heads/main/swagger1.yaml",
+    "urls": [{
+        "url": "https://raw.githubusercontent.com/chor4o/tools/refs/heads/main/swagger1.yaml",
+        "name": "Foo"
+    },{
+        "url": "https://raw.githubusercontent.com/chor4o/tools/refs/heads/main/swagger2.yaml",
+        "name": "Foo2"
+    }]
+}
