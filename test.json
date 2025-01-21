@@ -1,0 +1,10 @@
+{
+    "url": "http://roothospedagem.com/teste/swagger/test.yaml",
+    "urls": [{
+        "url": "http://roothospedagem.com/teste/swagger/test.yaml",
+        "name": "Foo"
+    },{
+        "url": "http://roothospedagem.com/teste/swagger/test2.yaml",
+        "name": "Foo2"
+    }]
+}
